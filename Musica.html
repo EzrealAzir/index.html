@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Musical</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f2f7; /* Un azul claro suave */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #2c3e50; /* Azul oscuro */
+            color: white;
+            padding: 1.5em 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.8em;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Para que los enlaces se envuelvan en pantallas pequeñas */
+        }
+
+        nav ul li {
+            margin: 0 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav ul li a:hover {
+            background-color: #34495e; /* Un tono más claro al pasar el ratón */
+            transform: translateY(-2px);
+        }
+
+        main {
+            padding: 30px;
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .genero-seccion {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #cce7ee; /* Línea divisoria suave */
+        }
+
+        .genero-seccion:last-child {
+            border-bottom: none; /* Eliminar la línea del último elemento */
+            margin-bottom: 20px;
+            padding-bottom: 0;
+        }
+
+        .genero-seccion h2 {
+            color: #007bff; /* Azul vibrante */
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            font-size: 2em;
+            text-align: center;
+        }
+
+        .contenido-genero {
+            display: flex;
+            flex-direction: column; /* Cambiado a columna para mejor legibilidad */
+            gap: 25px;
+            align-items: center; /* Centrar los elementos dentro de la sección */
+        }
+
+        .contenido-genero p {
+            text-align: justify;
+            max-width: 800px;
+            font-size: 1.05em;
+        }
+
+        .contenido-genero img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contenido-genero ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+            max-width: 800px;
+        }
+
+        .contenido-genero ul li {
+            background-color: #f9f9f9;
+            margin-bottom: 8px;
+            padding: 10px 15px;
+            border-left: 4px solid #007bff;
+            border-radius: 4px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 para videos responsivos */
+            height: 0;
+            overflow: hidden;
+            max-width: 800px; /* Limita el ancho máximo del video */
+            margin: 20px 0;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        /* Estilos para el reproductor */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .reproductor-musica {
+            margin-bottom: 20px;
+        }
+
+        .reproductor-musica h3 {
+            margin-top: 0;
+            font-size: 1.8em;
+        }
+
+        .reproductor-musica p {
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .reproductor-musica iframe { /* Asegura que el iframe de Spotify sea responsivo */
+            max-width: 600px; /* Limita el ancho máximo del reproductor Spotify */
+            margin: 15px auto; /* Centra el reproductor */
+            display: block; /* Necesario para que margin auto funcione */
+        }
+
+        /* Responsividad básica */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            main {
+                padding: 15px;
+                margin: 15px auto;
+            }
+
+            .genero-seccion h2 {
+                font-size: 1.8em;
+            }
+
+            .contenido-genero {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5em;
+            }
+
+            nav ul li a {
+                font-size: 0.9em;
+                padding: 6px 10px;
+            }
+
+            .genero-seccion h2 {
+                font-size: 1.5em;
+            }
+
+            .reproductor-musica iframe {
+                width: 95%; /* Ajusta el ancho en pantallas pequeñas */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Explorador Musical</h1>
+        <nav>
+            <ul>
+                <li><a href="#rock-clasico">Rock Clásico</a></li>
+                <li><a href="#pop-actual">Pop Actual</a></li>
+                <li><a href="#hip-hop">Hip-Hop / Rap</a></li>
+                <li><a href="#electronica">Electrónica (EDM)</a></li>
+                <li><a href="#latina">Música Latina</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="rock-clasico" class="genero-seccion">
+            <h2>Género Musical 1: Rock Clásico</h2>
+            <div class="contenido-genero">
+                <p>El rock clásico es un género musical que se originó a mediados de la década de 1960. Se caracteriza por su energía, riffs de guitarra memorables y letras que a menudo exploran temas sociales, amorosos y de rebeldía. Bandas como The Beatles, Led Zeppelin y Queen definieron este sonido.</p>
+                <img src="https://via.placeholder.com/300x200?text=Rock+Clasico" alt="Imagen de Rock Clásico">
+                <ul>
+                    <li>Artistas icónicos: Led Zeppelin, Queen, The Rolling Stones, Pink Floyd, The Beatles.</li>
+                    <li>Álbumes esenciales: "Led Zeppelin IV", "A Night at the Opera", "Dark Side of the Moon".</li>
+                </ul>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Q0P8P2zP_zU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="pop-actual" class="genero-seccion">
+            <h2>Género Musical 2: Pop Actual</h2>
+            <div class="contenido-genero">
+                <p>El pop actual es un género en constante evolución, caracterizado por sus melodías pegadizas, producción pulida y atractivo masivo. Incorpora elementos de diversos estilos como el R&B, la electrónica y el hip-hop, adaptándose a las tendencias globales.</p>
+                <img src="https://via.placeholder.com/300x200?text=Pop+Actual" alt="Imagen de Pop Actual">
+                <ul>
+                    <li>Artistas destacados: Taylor Swift, Ed Sheeran, Billie Eilish, Dua Lipa, The Weeknd.</li>
+                    <li>Características: Producción de alta calidad, letras sobre experiencias personales, ritmos bailables.</li>
+                </ul>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/lp-EO5I60KA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="hip-hop" class="genero-seccion">
+            <h2>Género Musical 3: Hip-Hop / Rap</h2>
+            <div class="contenido-genero">
+                <p>El hip-hop es una cultura y un género musical que surgió en la década de 1970 en el Bronx, Nueva York. Se define por sus rimas (rap), beats rítmicos, scratching y sampling. Ha evolucionado enormemente, abarcando una vasta gama de subgéneros y temas.</p>
+                <img src="https://via.placeholder.com/300x200?text=Hip-Hop" alt="Imagen de Hip-Hop">
+                <ul>
+                    <li>Exponentes clave: Tupac Shakur, The Notorious B.I.G., Kendrick Lamar, Cardi B, Eminem.</li>
+                    <li>Impacto cultural: Influencia en moda, lenguaje, arte y movimientos sociales.</li>
+                </ul>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/8yL7Gz4lI6g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="electronica" class="genero-seccion">
+            <h2>Género Musical 4: Música Electrónica (EDM)</h2>
+            <div class="contenido-genero">
+                <p>La música electrónica de baile (EDM) abarca una amplia variedad de géneros producidos principalmente con instrumentos electrónicos. Es el pilar de festivales de música masivos y clubes nocturnos alrededor del mundo, creando atmósferas inmersivas y energéticas.</p>
+                <img src="https://via.placeholder.com/300x200?text=Electronica" alt="Imagen de Música Electrónica">
+                <ul>
+                    <li>Subgéneros populares: House, Techno, Trance, Dubstep, Drum & Bass.</li>
+                    <li>DJs y productores: Martin Garrix, David Guetta, Calvin Harris, Skrillex.</li>
+                </ul>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/K4DyBUG242c" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="latina" class="genero-seccion">
+            <h2>Género Musical 5: Música Latina</h2>
+            <div class="contenido-genero">
+                <p>La música latina es un vasto y vibrante conjunto de géneros provenientes de América Latina, España y Portugal. Incluye ritmos tan diversos como la salsa, el reggaetón, la cumbia, el merengue y la bachata, caracterizados por su ritmo contagioso y su capacidad para invitar al baile.</p>
+                <img src="https://via.placeholder.com/300x200?text=Musica+Latina" alt="Imagen de Música Latina">
+                <ul>
+                    <li>Ritmos clave: Salsa, Reggaetón, Cumbia, Bachata, Merengue.</li>
+                    <li>Artistas influyentes: Marc Anthony, Bad Bunny, Shakira, Romeo Santos.</li>
+                </ul>
+                <div class="video-container">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/fHI8X4OXQSg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="reproductor-musica">
+            <h3>Reproductor de Spotify</h3>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7sZX4A9QfgfosmxzkOMMSB?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <p>¡Explora más música en Spotify!</p>
+        </div>
+        <p>© 2025 Explorador Musical. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
